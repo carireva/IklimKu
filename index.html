@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IklimKu — AI Climate Monitor Indonesia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">🌏</span>
+      <span class="brand-name">IklimKu</span>
+      <span class="brand-tag">AI for SDGs</span>
+    </div>
+    <div class="nav-links">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#prediction">AI Prediksi</a>
+      <a href="#grafik">Grafik</a>
+      <a href="#berita">Berita</a>
+    </div>
+    <div class="nav-time" id="navTime"></div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🤖 AI for SDGs — Climate Action</div>
+      <h1 class="hero-title">Monitoring Iklim<br><span class="accent">Indonesia</span></h1>
+      <p class="hero-sub">Platform open-source berbasis AI untuk memantau kondisi iklim, memprediksi risiko cuaca ekstrem, dan mendukung ketahanan lingkungan Indonesia.</p>
+      <div class="hero-stats">
+        <div class="hstat"><span id="heroTemp">--</span>°C<p>Suhu Kini</p></div>
+        <div class="hstat"><span id="heroHum">--</span>%<p>Kelembapan</p></div>
+        <div class="hstat"><span id="heroAqi">--</span><p>AQI</p></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="globe-ring r1"></div>
+      <div class="globe-ring r2"></div>
+      <div class="globe-ring r3"></div>
+      <div class="globe-core">🌏</div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="section">
+    <div class="section-header">
+      <h2>Dashboard Iklim</h2>
+      <span class="section-sub">Data real-time kondisi cuaca Indonesia</span>
+    </div>
+
+    <div class="city-selector">
+      <button class="city-btn active" data-city="surabaya">Surabaya</button>
+      <button class="city-btn" data-city="jakarta">Jakarta</button>
+      <button class="city-btn" data-city="bandung">Bandung</button>
+      <button class="city-btn" data-city="medan">Medan</button>
+      <button class="city-btn" data-city="makassar">Makassar</button>
+    </div>
+
+    <div class="cards-grid">
+      <div class="card card-temp">
+        <div class="card-icon">🌡️</div>
+        <div class="card-label">Suhu Udara</div>
+        <div class="card-value" id="tempVal">--</div>
+        <div class="card-unit">°C</div>
+        <div class="card-bar"><div class="bar-fill" id="tempBar"></div></div>
+        <div class="card-status" id="tempStatus">Memuat...</div>
+      </div>
+
+      <div class="card card-hum">
+        <div class="card-icon">💧</div>
+        <div class="card-label">Kelembapan</div>
+        <div class="card-value" id="humVal">--</div>
+        <div class="card-unit">%</div>
+        <div class="card-bar"><div class="bar-fill" id="humBar"></div></div>
+        <div class="card-status" id="humStatus">Memuat...</div>
+      </div>
+
+      <div class="card card-aqi">
+        <div class="card-icon">🌬️</div>
+        <div class="card-label">Kualitas Udara (AQI)</div>
+        <div class="card-value" id="aqiVal">--</div>
+        <div class="card-unit">AQI</div>
+        <div class="card-bar"><div class="bar-fill" id="aqiBar"></div></div>
+        <div class="card-status" id="aqiStatus">Memuat...</div>
+      </div>
+
+      <div class="card card-rain">
+        <div class="card-icon">🌧️</div>
+        <div class="card-label">Curah Hujan</div>
+        <div class="card-value" id="rainVal">--</div>
+        <div class="card-unit">mm/hr</div>
+        <div class="card-bar"><div class="bar-fill" id="rainBar"></div></div>
+        <div class="card-status" id="rainStatus">Memuat...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI PREDICTION -->
+  <section id="prediction" class="section section-dark">
+    <div class="section-header">
+      <h2>AI Prediction</h2>
+      <span class="section-sub">Sistem peringatan dini berbasis logika AI sederhana</span>
+    </div>
+
+    <div class="warning-grid">
+      <div class="warning-card" id="warnBanjir">
+        <div class="warn-icon">🌊</div>
+        <div class="warn-title">Warning Banjir</div>
+        <div class="warn-level" id="banjirLevel">Menganalisis...</div>
+        <div class="warn-desc" id="banjirDesc">—</div>
+        <div class="warn-meter">
+          <div class="meter-fill" id="banjirMeter"></div>
+        </div>
+        <div class="warn-score" id="banjirScore">Risk: --%</div>
+      </div>
+
+      <div class="warning-card" id="warnHeatwave">
+        <div class="warn-icon">☀️</div>
+        <div class="warn-title">Warning Heatwave</div>
+        <div class="warn-level" id="heatLevel">Menganalisis...</div>
+        <div class="warn-desc" id="heatDesc">—</div>
+        <div class="warn-meter">
+          <div class="meter-fill" id="heatMeter"></div>
+        </div>
+        <div class="warn-score" id="heatScore">Risk: --%</div>
+      </div>
+
+      <div class="warning-card" id="warnUdara">
+        <div class="warn-icon">😷</div>
+        <div class="warn-title">Kualitas Udara</div>
+        <div class="warn-level" id="udaraLevel">Menganalisis...</div>
+        <div class="warn-desc" id="udaraDesc">—</div>
+        <div class="warn-meter">
+          <div class="meter-fill" id="udaraMeter"></div>
+        </div>
+        <div class="warn-score" id="udaraScore">AQI: --</div>
+      </div>
+    </div>
+
+    <div class="ai-logic-box">
+      <div class="ai-logic-title">🤖 Cara Kerja AI Prediction</div>
+      <div class="ai-steps">
+        <div class="ai-step"><span>1</span> Membaca data suhu, kelembapan & curah hujan</div>
+        <div class="ai-step"><span>2</span> Menghitung skor risiko berdasarkan threshold ilmiah</div>
+        <div class="ai-step"><span>3</span> Mengklasifikasikan level: Aman / Waspada / Bahaya</div>
+        <div class="ai-step"><span>4</span> Menampilkan rekomendasi tindakan</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRAFIK -->
+  <section id="grafik" class="section">
+    <div class="section-header">
+      <h2>Grafik Iklim</h2>
+      <span class="section-sub">Tren 7 hari terakhir</span>
+    </div>
+
+    <div class="chart-tabs">
+      <button class="tab-btn active" data-chart="suhu">Suhu</button>
+      <button class="tab-btn" data-chart="kelembapan">Kelembapan</button>
+      <button class="tab-btn" data-chart="aqi">AQI</button>
+      <button class="tab-btn" data-chart="hujan">Curah Hujan</button>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="climateChart"></canvas>
+    </div>
+
+    <div class="chart-summary" id="chartSummary"></div>
+  </section>
+
+  <!-- BERITA -->
+  <section id="berita" class="section section-dark">
+    <div class="section-header">
+      <h2>Berita Iklim Indonesia</h2>
+      <span class="section-sub">Informasi terkini seputar perubahan iklim & lingkungan</span>
+    </div>
+
+    <div class="news-grid" id="newsGrid"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">🌏 IklimKu</div>
+    <div class="footer-desc">Platform open-source monitoring iklim Indonesia · AI for SDGs · SDG 13: Climate Action</div>
+    <div class="footer-tech">Dibangun dengan HTML · CSS · JavaScript · Chart.js</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
